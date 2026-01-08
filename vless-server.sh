@@ -916,6 +916,7 @@ add_xray_inbound_v2() {
                 --arg dest "$reality_dest" \
             '{
                 port: $port,
+                listen: "::",
                 protocol: "vless",
                 settings: {
                     clients: [{id: $uuid, flow: "xtls-rprx-vision"}],
@@ -947,6 +948,7 @@ add_xray_inbound_v2() {
                 --argjson fallbacks "$fallbacks" \
             '{
                 port: $port,
+                listen: "::",
                 protocol: "vless",
                 settings: {
                     clients: [{id: $uuid, flow: "xtls-rprx-vision"}],
@@ -998,6 +1000,7 @@ add_xray_inbound_v2() {
                     --arg key "$CFG/certs/server.key" \
                 '{
                     port: $port,
+                    listen: "::",
                     protocol: "vless",
                     settings: {
                         clients: [{id: $uuid}],
@@ -1026,6 +1029,7 @@ add_xray_inbound_v2() {
                 --arg dest "$reality_dest" \
             '{
                 port: $port,
+                listen: "::",
                 protocol: "vless",
                 settings: {clients: [{id: $uuid}], decryption: "none"},
                 streamSettings: {
@@ -1074,6 +1078,7 @@ add_xray_inbound_v2() {
                     --arg key "$CFG/certs/server.key" \
                 '{
                     port: $port,
+                    listen: "::",
                     protocol: "vmess",
                     settings: {clients: [{id: $uuid, alterId: 0, security: "auto"}]},
                     streamSettings: {
@@ -1098,6 +1103,7 @@ add_xray_inbound_v2() {
                 --argjson fallbacks "$fallbacks" \
             '{
                 port: $port,
+                listen: "::",
                 protocol: "trojan",
                 settings: {
                     clients: [{password: $password}],
@@ -1118,6 +1124,7 @@ add_xray_inbound_v2() {
                 --arg password "$password" \
             '{
                 port: $port,
+                listen: "::",
                 protocol: "socks",
                 settings: {
                     auth: "password",
@@ -1136,6 +1143,7 @@ add_xray_inbound_v2() {
                 --arg tag "$protocol" \
             '{
                 port: $port,
+                listen: "::",
                 protocol: "shadowsocks",
                 settings: {
                     method: $method,
@@ -1319,6 +1327,39 @@ check_dependencies() {
         _ok "依赖安装完成"
     fi
     return 0
+}
+
+# 确保系统支持双栈监听（IPv4 + IPv6）
+ensure_dual_stack_listen() {
+    # 仅在 Linux 系统上执行
+    [[ ! -f /proc/sys/net/ipv6/bindv6only ]] && return 0
+
+    local current=$(cat /proc/sys/net/ipv6/bindv6only 2>/dev/null || echo "1")
+
+    # 如果已经是双栈（0），直接返回
+    [[ "$current" == "0" ]] && return 0
+
+    # bindv6only=1 表示 IPv6 socket 只监听 IPv6，需要改成 0 才能双栈
+    _warn "检测到系统 IPv6 socket 为 v6-only 模式，这会导致 IPv4 客户端无法连接"
+    _info "正在配置双栈监听支持..."
+
+    # 临时生效
+    sysctl -w net.ipv6.bindv6only=0 >/dev/null 2>&1
+
+    # 持久化配置
+    local sysctl_conf="/etc/sysctl.d/99-vless-dualstack.conf"
+    echo "net.ipv6.bindv6only=0" > "$sysctl_conf"
+
+    # 重新加载
+    sysctl -p "$sysctl_conf" >/dev/null 2>&1
+
+    # 验证
+    local new_value=$(cat /proc/sys/net/ipv6/bindv6only 2>/dev/null || echo "1")
+    if [[ "$new_value" == "0" ]]; then
+        _ok "双栈监听已启用（IPv4 和 IPv6 可同时连接）"
+    else
+        _warn "双栈配置可能未生效，建议手动执行: sysctl -w net.ipv6.bindv6only=0"
+    fi
 }
 
 #═══════════════════════════════════════════════════════════════════════════════
@@ -3813,6 +3854,7 @@ generate_singbox_config() {
                 '{
                     type: "tuic",
                     tag: "tuic-in",
+                    listen: "::",
                     listen_port: $port,
                     users: [{uuid: $uuid, password: $password}],
                     congestion_control: "bbr",
@@ -3839,6 +3881,7 @@ generate_singbox_config() {
                 '{
                     type: "shadowsocks",
                     tag: $tag,
+                    listen: "::",
                     listen_port: $port,
                     method: $method,
                     password: $password
@@ -11418,6 +11461,9 @@ do_install_server() {
     # 检测并安装基础依赖
     _info "检测基础依赖..."
     check_dependencies || { _err "依赖检测失败"; _pause; return 1; }
+
+    # 确保系统支持双栈监听（IPv4 + IPv6）
+    ensure_dual_stack_listen
 
     _info "检测网络环境..."
     local ipv4=$(get_ipv4) ipv6=$(get_ipv6)
